@@ -9,8 +9,7 @@ from tasks import encode_video
 
 
 app = Flask(__name__, template_folder='.')
-# result_dir = tempfile.mkdtemp()
-result_dir = '/tmp/video'
+result_dir = tempfile.mkdtemp()
 
 
 class TempDir(object):

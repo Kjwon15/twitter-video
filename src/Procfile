@@ -1,0 +1,2 @@
+web: uwsgi --module app:app --master --die-on-term --http-socket :80
+worker: C_FORCE_ROOT=1 celery -A tasks worker -l info
