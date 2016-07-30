@@ -1,4 +1,4 @@
-from ubuntu
+from ubuntu:xenial
 
 run apt-get update
 run apt-get install -y python-pip ffmpeg
