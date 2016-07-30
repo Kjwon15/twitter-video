@@ -17,7 +17,7 @@ def encode_video(result_dir, fname, orig_name):
         inputs={fname: None},
         outputs={out_name: '-acodec aac -vcodec h264 '
                  '-vf scale=720:-2 '
-                 '-y'}
+                 '-strict -2 -y'}
     )
     ff.run()
     # os.unlink(fname)
