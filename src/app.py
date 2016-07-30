@@ -48,6 +48,5 @@ def encoded(taskid):
         return render_template('refresh.html')
 
     encoded_fname, orig_fname = task.get()
-    return send_file(encoded_fname)
-    # return send_file(encoded_fname, as_attachment=True,
-    #                  attachment_filename=orig_fname)
+    return send_file(encoded_fname, as_attachment=True,
+                     attachment_filename=orig_fname)
