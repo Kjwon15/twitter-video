@@ -2,7 +2,8 @@ import os
 import shutil
 import tempfile
 
-from flask import Flask, render_template, redirect, request, send_file, url_for
+from flask import (Flask, after_this_request, render_template, redirect,
+                   request, send_file, url_for)
 from werkzeug import secure_filename
 
 from tasks import encode_video
@@ -55,5 +56,10 @@ def wait(taskid):
 def download(taskid):
     task = encode_video.AsyncResult(taskid)
     encoded_fname, orig_fname = task.get()
+    @after_this_request
+    def clear_file(response):
+        os.unlink(encoded_fname)
+        return response
+
     return send_file(encoded_fname, as_attachment=True,
                      attachment_filename=orig_fname)
