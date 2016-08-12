@@ -9,4 +9,4 @@ run pip install -r requirements.txt
 
 expose 80
 entrypoint []
-cmd honcho start -f Procfile.honcho
+cmd honcho -f Procfile.honcho start
