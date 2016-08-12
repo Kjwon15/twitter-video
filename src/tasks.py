@@ -20,6 +20,6 @@ def encode_video(result_dir, fname, orig_name):
                  '-strict -2 -y'}
     )
     ff.run()
-    # os.unlink(fname)
+    os.unlink(fname)
 
     return out_name, orig_name
