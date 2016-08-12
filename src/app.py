@@ -38,15 +38,22 @@ def upload():
     os.close(fd)
     file.save(fname)
     task = encode_video.delay(result_dir, fname, orig_name)
-    return redirect(url_for('encoded', taskid=task.id))
+    return redirect(url_for('wait', taskid=task.id))
 
 
 @app.route('/encoded/<taskid>')
-def encoded(taskid):
+def wait(taskid):
     task = encode_video.AsyncResult(taskid)
+    state = task.state
     if not task.ready():
-        return render_template('refresh.html')
+        return render_template('refresh.html', state=state)
 
+    return redirect(url_for('download', taskid=taskid))
+
+
+@app.route('/download/<taskid>')
+def download(taskid):
+    task = encode_video.AsyncResult(taskid)
     encoded_fname, orig_fname = task.get()
     return send_file(encoded_fname, as_attachment=True,
                      attachment_filename=orig_fname)

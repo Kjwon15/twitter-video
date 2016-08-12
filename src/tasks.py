@@ -9,7 +9,7 @@ REDIS_URL = os.environ.get('REDIS_URL')
 app = Celery('tasks', broker=REDIS_URL, backend=REDIS_URL)
 
 
-@app.task
+@app.task(track_started=True)
 def encode_video(result_dir, fname, orig_name):
     fd, out_name = tempfile.mkstemp(dir=result_dir, suffix='.mp4')
     os.close(fd)
