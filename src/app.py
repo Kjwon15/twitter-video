@@ -41,7 +41,7 @@ def upload():
     return redirect(url_for('wait', taskid=task.id))
 
 
-@app.route('/encoded/<taskid>')
+@app.route('/waiting/<taskid>')
 def wait(taskid):
     task = encode_video.AsyncResult(taskid)
     state = task.state
