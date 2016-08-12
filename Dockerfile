@@ -1,9 +1,12 @@
-from ubuntu:xenial
+from jrottenberg/ffmpeg:ubuntu
 
-run apt-get update
-run apt-get install -y python-pip ffmpeg
+run apt-get -qq update
+run apt-get install -y python-pip
+workdir /app
 add src .
 run pip install -r requirements.txt
 
+
 expose 80
-cmd honcho start
+entrypoint []
+cmd honcho start -f Procfile.honcho
