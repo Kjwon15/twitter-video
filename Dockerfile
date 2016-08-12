@@ -2,11 +2,16 @@ from jrottenberg/ffmpeg:ubuntu
 
 run apt-get -qq update
 run apt-get install -y python-pip
+
+run useradd -m app
+user app
+env PATH=/home/app/.local/bin:$PATH
+
 workdir /app
 add src .
-run pip install -r requirements.txt
+run pip install --user -r requirements.txt
 
 
-expose 80
+expose 5000
 entrypoint []
-cmd honcho -f Procfile.honcho start
+cmd honcho start
