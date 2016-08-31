@@ -9,7 +9,7 @@ from werkzeug import secure_filename
 from tasks import encode_video
 
 
-app = Flask(__name__, template_folder='.')
+app = Flask(__name__)
 result_dir = tempfile.mkdtemp()
 
 
