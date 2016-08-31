@@ -4,9 +4,10 @@ import tempfile
 from celery import Celery
 from ffmpy import FFmpeg
 
-REDIS_URL = os.environ.get('REDIS_URL')
+BROKER_URL = os.environ.get('BROKER_URL')
+BACKEND_URL = os.environ.get('BACKEND_URL')
 
-app = Celery('tasks', broker=REDIS_URL, backend=REDIS_URL)
+app = Celery('tasks', broker=BROKER_URL, backend=BACKEND_URL)
 
 
 @app.task(track_started=True)
