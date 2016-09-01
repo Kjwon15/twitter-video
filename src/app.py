@@ -2,14 +2,14 @@ import os
 import shutil
 import tempfile
 
-from flask import (Flask, after_this_request, render_template, redirect,
-                   request, send_file, url_for)
+from flask import (Flask, after_this_request, jsonify, render_template,
+                   redirect, request, send_file, url_for)
 from werkzeug import secure_filename
 
 from tasks import encode_video
 
 
-app = Flask(__name__, template_folder='.')
+app = Flask(__name__)
 result_dir = tempfile.mkdtemp()
 
 
@@ -47,9 +47,21 @@ def wait(taskid):
     task = encode_video.AsyncResult(taskid)
     state = task.state
     if not task.ready():
-        return render_template('refresh.html', state=state)
+        return render_template(
+            'refresh.html',
+            state=state, taskid=taskid)
 
     return redirect(url_for('download', taskid=taskid))
+
+
+@app.route('/check/<taskid>')
+def check(taskid):
+    task = encode_video.AsyncResult(taskid)
+    return jsonify({
+        'state': task.state,
+        'done': task.ready(),
+        'destination': url_for('download', taskid=taskid),
+    })
 
 
 @app.route('/download/<taskid>')
