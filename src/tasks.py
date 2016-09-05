@@ -11,16 +11,17 @@ app = Celery('tasks', broker=BROKER_URL, backend=BACKEND_URL)
 
 
 @app.task(track_started=True)
-def encode_video(result_dir, fname, orig_name):
-    fd, out_name = tempfile.mkstemp(dir=result_dir, suffix='.mp4')
-    os.close(fd)
+def encode_video(fdata, orig_name):
+    fp = tempfile.NamedTemporaryFile(delete=False, suffix='.mp4')
+    filename = fp.name
+    fp.close()
     ff = FFmpeg(
-        inputs={fname: None},
-        outputs={out_name: '-acodec aac -vcodec h264 '
+        inputs={'pipe:0': None},
+        outputs={filename: '-acodec aac -vcodec h264 '
                  '-vf scale=720:-2 '
                  '-strict -2 -y'}
     )
-    ff.run()
-    os.unlink(fname)
+    ff.run(input_data=fdata)
 
-    return out_name, orig_name
+    with open(filename) as fp:
+        return fp.read(), orig_name

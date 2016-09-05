@@ -1,26 +1,12 @@
-import os
-import shutil
-import tempfile
+from io import BytesIO
 
 from flask import (Flask, after_this_request, jsonify, render_template,
                    redirect, request, send_file, url_for)
-from werkzeug import secure_filename
 
 from tasks import encode_video
 
 
 app = Flask(__name__)
-result_dir = tempfile.mkdtemp()
-
-
-class TempDir(object):
-
-    def __enter__(self):
-        self.name = tempfile.mkdtemp()
-        return self.name
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        shutil.rmtree(self.name)
 
 
 @app.route('/')
@@ -34,11 +20,9 @@ def upload():
     if not file:
         return 'Not OK'
 
-    orig_name = secure_filename(file.filename)
-    fd, fname = tempfile.mkstemp(dir=result_dir, suffix='.mp4')
-    os.close(fd)
-    file.save(fname)
-    task = encode_video.delay(result_dir, fname, orig_name)
+    fdata = file.read()
+    orig_name = file.filename
+    task = encode_video.delay(fdata, orig_name)
     return redirect(url_for('wait', taskid=task.id))
 
 
@@ -67,11 +51,7 @@ def check(taskid):
 @app.route('/download/<taskid>')
 def download(taskid):
     task = encode_video.AsyncResult(taskid)
-    encoded_fname, orig_fname = task.get()
-    @after_this_request
-    def clear_file(response):
-        os.unlink(encoded_fname)
-        return response
+    encoded_blob, orig_fname = task.get()
 
-    return send_file(encoded_fname, as_attachment=True,
+    return send_file(BytesIO(encoded_blob), as_attachment=True,
                      attachment_filename=orig_fname)
