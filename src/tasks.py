@@ -24,4 +24,4 @@ def encode_video(fdata, orig_name):
     ff.run(input_data=fdata)
 
     with open(filename) as fp:
-        return fp.read(), orig_name
+        return orig_name, fp.read()

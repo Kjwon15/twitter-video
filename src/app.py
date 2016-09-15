@@ -51,7 +51,7 @@ def check(taskid):
 @app.route('/download/<taskid>')
 def download(taskid):
     task = encode_video.AsyncResult(taskid)
-    encoded_blob, orig_fname = task.get()
+    orig_fname, encoded_blob = task.get()
 
     return send_file(BytesIO(encoded_blob), as_attachment=True,
                      attachment_filename=orig_fname)
