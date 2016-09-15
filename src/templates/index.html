@@ -1,15 +1,51 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title>Index</title>
-    </head>
-    <body>
-      <form action="{{url_for('upload')}}" method="post" enctype="multipart/form-data">
-        <input name="file" type="file">
-        <button type="submit">Submit</button>
-      </form>
-    </body>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/master.css') }}" type="text/css" media="all" charset="utf-8">
+    <title>Index</title>
+  </head>
+  <body>
+    <header>
+      <h1>Twitter video</h1>
+    </header>
+    <section class="block">
+      <h2>Upload</h2>
+      <p>
+        <h3>왜 만들었나요?</h3>
+        트위터는 201x년에 어울리지 않게 동영상의 코덱이 맞지 않으면<sub>(주로 오버워치 녹화본)</sub> 소리가 없어진다거나 심지어는 업로드 자체가 안 될 때가 많습니다. 이런 경우에는 재인코딩을 해야 하는데 일일히 하기 짜증나서 만들었습니다.
+      </p>
+      <p>
+        <h3>사용방법</h3>
+        <ol>
+          <li>동영상을 업로드 한다.</li>
+          <li>인코딩이 완료 될 때까지 창을 열어 둔다.</li>
+          <li>다운로드 된 동영상을 트위터에 올린다.</li>
+        </ol>
+      </p>
+      <div class="highlight center block">
+        <form action="{{url_for('upload')}}" method="post" enctype="multipart/form-data">
+          <input name="file" type="file">
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Donation</h2>
+      <p>
+        주인장은 이것 외에도 무상으로 여러가지 서비스를 제공하지만 동영상 인코딩은 컴퓨팅 자원을 꽤 많이 소모합니다. 유익하게 썼다면 주인장에게 맥주 한 잔을 선물해 주세요.
+      </p>
+      <div class="center">
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+          <input type="hidden" name="cmd" value="_s-xclick" />
+          <input type="hidden" name="hosted_button_id" value="R3UZJ4LA3U8N6" />
+          <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate" />
+          <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+        </form>
+      </div>
+    </section>
+  </body>
 </html>
 
