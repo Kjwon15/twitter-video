@@ -21,7 +21,14 @@ def encode_video(fdata, orig_name):
                  '-vf scale=720:-2 '
                  '-strict -2 -y'}
     )
-    ff.run(input_data=fdata)
+    try:
+        ff.run(input_data=fdata)
+    except Exception as e:
+        with tempfile.NamedTemporaryFile(
+            delete=False, suffix='_' + orig_name) as fp:
+            print('Save this file to {}.'.format(fp.name))
+            fp.write(fdata)
+        raise
 
     with open(filename) as fp:
         content = fp.read()
