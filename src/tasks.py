@@ -18,7 +18,8 @@ def encode_video(fdata, orig_name):
     ff = FFmpeg(
         inputs={'pipe:0': None},
         outputs={filename: '-acodec aac -vcodec h264 '
-                 '-vf scale=720:-2 '
+                 '-vf "scale=640:trunc(ow/a/2)*2" '
+                 '-pix_fmt yuv420p '
                  '-strict -2 -y'}
     )
     try:
