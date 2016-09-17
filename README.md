@@ -12,10 +12,9 @@ Preparation for Dokku
 
 ```sh
 # Use redis as celery broker
+# Or just use rabbitmq
 $ dokku redis:create twitter-video-redis
 $ dokku redis:link twitter-video-redis twitter-video
-# Link upload dir
-$ dokku docker-options:add deploy "-v /tmp:/tmp"
 # Scale up worker
 $ dokku ps:scale twitter-video worker=1
 ```
