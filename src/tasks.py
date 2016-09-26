@@ -18,10 +18,18 @@ def encode_video(fdata, orig_name):
     ff = FFmpeg(
         inputs={'pipe:0': None},
         outputs={filename: '-acodec aac -vcodec h264 '
-                 '-vf scale=720:-2 '
+                 '-vf "scale=640:trunc(ow/a/2)*2" '
+                 '-pix_fmt yuv420p '
                  '-strict -2 -y'}
     )
-    ff.run(input_data=fdata)
+    try:
+        ff.run(input_data=fdata)
+    except Exception as e:
+        with tempfile.NamedTemporaryFile(
+            delete=False, suffix='_' + orig_name) as fp:
+            print('Save this file to {}.'.format(fp.name))
+            fp.write(fdata)
+        raise
 
     with open(filename) as fp:
         content = fp.read()
