@@ -24,6 +24,7 @@ def encode_video(fdata, orig_name):
                 outputs={filename: '-acodec aac -vcodec h264 '
                          '-vf "scale=640:trunc(ow/a/2)*2" '
                          '-pix_fmt yuv420p '
+                         '-loglevel warning '
                          '-strict -2 -y'}
             )
             ff.run()
