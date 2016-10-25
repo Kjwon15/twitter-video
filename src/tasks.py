@@ -41,7 +41,7 @@ def encode_video(fdata, orig_name):
             fp.write(fdata)
         raise
 
-    with open(filename) as fp:
+    with open(filename, 'rb') as fp:
         content = fp.read()
         os.remove(filename)
         return orig_name, content

@@ -62,4 +62,4 @@ def download(taskid):
     orig_fname, encoded_blob = task.get()
 
     return send_file(BytesIO(encoded_blob), as_attachment=True,
-                     attachment_filename=orig_fname.encode('utf-8'))
+                     attachment_filename=orig_fname)
