@@ -33,6 +33,20 @@
     </section>
 
     <section class="block">
+      <h3>Encoding servers</h3>
+      {% set status = ping() %}
+      {% if not status %}
+      <p>Encoding servers are dead.</p>
+      {% else %}
+      <ul>
+        {% for server in status.keys() %}
+        <li>{{ server.split('@', 1)[1] }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </section>
+
+    <section class="block">
       <h2>Donation</h2>
       <p>
         주인장은 이것 외에도 무상으로 여러가지 서비스를 제공하지만 동영상 인코딩은 컴퓨팅 자원을 꽤 많이 소모합니다. 유익하게 썼다면 주인장에게 맥주 한 잔을 선물해 주세요.

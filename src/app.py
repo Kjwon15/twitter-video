@@ -1,9 +1,10 @@
 from io import BytesIO
 
+from celery.task.control import inspect
 from flask import (Flask, after_this_request, jsonify, render_template,
                    redirect, request, send_file, url_for)
 
-from tasks import encode_video
+from tasks import check_alive, encode_video
 
 
 app = Flask(__name__)
@@ -12,6 +13,13 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
+@app.context_processor
+def utility_processor():
+    return dict(
+        ping=check_alive
+    )
 
 
 @app.route('/upload', methods=['POST'])
