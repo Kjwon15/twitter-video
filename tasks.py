@@ -33,10 +33,7 @@ def encode_video(orig_name, input_fname, working_dir):
         ff.run()
         os.unlink(input_fname)
     except Exception as e:
-        with tempfile.NamedTemporaryFile(
-            delete=False, suffix='_' + orig_name) as fp:
-            print('Save this file to {}.'.format(fp.name))
-            fp.write(fdata)
+        print('Save this file to {}.'.format(input_fname))
         raise
 
     return orig_name, output_fname
