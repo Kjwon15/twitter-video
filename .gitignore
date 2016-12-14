@@ -1,6 +1,7 @@
 .coverage
 .DS_Store
 .tox
+.env
 dist
 docs/_build
 build/
