@@ -75,5 +75,9 @@ def download(taskid):
         os.unlink(output_fname)
         return response
 
+    dst_fname = orig_name
+    if not dst_fname.endswith('.mp4'):
+        dst_fname += '.mp4'
+
     return send_file(output_fname, as_attachment=True,
-                     attachment_filename=orig_name)
+                     attachment_filename=dst_fname)
